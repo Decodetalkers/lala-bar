@@ -70,6 +70,6 @@ jobs:
           cargo publish -p iced_zbus_notification --token ${{ secrets.CRATES_TOKEN }}
           cargo publish -p lala-bar --token ${{ secrets.CRATES_TOKEN }}
       - name: GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           draft: false
