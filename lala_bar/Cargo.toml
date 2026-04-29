@@ -50,7 +50,7 @@ futures.workspace = true
 iced_zbus_notification.workspace = true
 chrono = "0.4.44"
 async-trait.workspace = true
-iced_aw = "0.13"
+iced_aw = "0.14"
 open = "5.3.3"
 ashpd = { version = "0.13.8", features = ["screenshot"] }
 toml = "1.1.0"
