@@ -101,11 +101,9 @@ impl UserData {
             let mut spectrum = fft.make_output_vec();
             fft.process(&mut block, &mut spectrum).ok()?;
             // NOTE: let we use the log absolute instead
+            // Because realfft already handle the mirror part of the spectrum, so we do not need to
+            // cut the result to half
             let data: Vec<f32> = spectrum.iter().map(|v| (v.norm() + 1e-7).log10()).collect();
-            let len = data.len();
-
-            // NOTE: only use half of spectrum
-            let data = data[0..len / 2 + 1].to_vec();
 
             let smooth_data = smooth_spectrum(&data);
             spectrums.push(smooth_data);
