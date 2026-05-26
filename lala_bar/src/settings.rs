@@ -7,6 +7,12 @@ pub struct SettingsConfig {
     pub(crate) background_color: Option<String>,
     #[serde(default)]
     pub(crate) spectrum_chart: bool,
+    #[serde(default = "sound_enable")]
+    pub(crate) sound_enable: bool,
+}
+
+const fn sound_enable() -> bool {
+    true
 }
 
 fn ensure_file() {
@@ -72,8 +78,14 @@ impl SettingsConfig {
     pub fn spectrum_enable(&self) -> bool {
         self.spectrum_chart
     }
+    pub fn sound_enable(&self) -> bool {
+        self.sound_enable
+    }
     pub fn set_spectrum(&mut self, enable: bool) {
         self.spectrum_chart = enable;
+    }
+    pub fn set_sound_enable(&mut self, enable: bool) {
+        self.sound_enable = enable;
     }
     pub fn set_background(&mut self, color: iced::Color) {
         let r = (color.r * 255.) as i32;

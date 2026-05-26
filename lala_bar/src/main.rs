@@ -119,6 +119,7 @@ pub enum Message {
     RightPanelFilterChanged(RightPanelFilter),
     PickerColor,
     ToggleSpectrum(bool),
+    ToggleSound(bool),
     PickerColorDone(ColorPickerResult),
     ResetConfig,
 

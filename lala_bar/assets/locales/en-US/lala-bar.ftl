@@ -17,6 +17,7 @@ pick-color = pick
 reset = reset
 background-color = background color:
 spectrum-enable = spectrum enable:
+sound-enable = sound enable:
 
 #date and time
 pick-date = Pick date

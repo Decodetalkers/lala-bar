@@ -363,30 +363,53 @@ impl LalaMusicBar {
     }
     fn right_settings(&'_ self) -> Element<'_, Message> {
         let color_settings = container(row![
-            container(text(fl!("background-color")).align_x(Alignment::End)).center_y(Length::Fill),
+            Space::new().width(10.),
+            container(text(fl!("background-color")).align_x(Alignment::End))
+                .center_y(Length::Fill)
+                .width(Length::Fill),
             Space::new().width(20.),
             button(text(fl!("pick-color")))
                 .on_press(Message::PickerColor)
-                .width(Length::Fixed(50.))
+                .width(Length::Fixed(50.)),
+            Space::new().width(10.)
         ])
         .center_y(Length::Fill)
         .center_x(Length::Fill);
         let spectrum_setting = container(row![
-            container(text(fl!("spectrum-enable")).align_x(Alignment::End)).center_y(Length::Fill),
+            Space::new().width(10.),
+            container(text(fl!("spectrum-enable")).align_x(Alignment::End))
+                .center_y(Length::Fill)
+                .width(Length::Fill),
             Space::new().width(20.),
             container(
                 checkbox(self.bar_settings.spectrum_enable()).on_toggle(Message::ToggleSpectrum)
             )
             .center_y(Length::Fill)
             .center_x(Length::Fill)
-            .width(Length::Fixed(50.))
+            .width(Length::Fixed(70.)),
+            Space::new().width(10.)
+        ])
+        .center_y(30.)
+        .center_x(Length::Fill);
+        let sound_setting = container(row![
+            Space::new().width(10.),
+            container(text(fl!("sound-enable")).align_x(Alignment::End))
+                .center_y(Length::Fill)
+                .width(Length::Fill),
+            Space::new().width(20.),
+            container(checkbox(self.bar_settings.sound_enable()).on_toggle(Message::ToggleSound))
+                .center_y(Length::Fill)
+                .center_x(Length::Fill)
+                .width(Length::Fixed(70.)),
+            Space::new().width(10.)
         ])
         .center_y(30.)
         .center_x(Length::Fill);
         let settings = scrollable(column![
             Space::new().height(30.),
             color_settings,
-            spectrum_setting
+            spectrum_setting,
+            sound_setting
         ])
         .height(Length::Fill);
         let reset_button = container(button(text(fl!("reset"))).on_press(Message::ResetConfig))
@@ -476,7 +499,11 @@ impl LalaMusicBar {
         )
         .on_press(Message::ToggleLauncher);
 
-        let sound_slider = container(self.sound_slider()).center_y(Length::Fill);
+        let sound_slider: Element<'_, Message> = if self.bar_settings.sound_enable() {
+            container(self.sound_slider()).center_y(Length::Fill).into()
+        } else {
+            Space::new().into()
+        };
         let panel_text = if self.right_panel.is_some() { ">" } else { "<" };
 
         let panel_btn = container(button(text(panel_text)).on_press(Message::ToggleRightPanel))
@@ -1284,6 +1311,10 @@ impl LalaMusicBar {
             }
             Message::ToggleSpectrum(enable) => {
                 self.bar_settings.set_spectrum(enable);
+                self.bar_settings.write_to_file();
+            }
+            Message::ToggleSound(enable) => {
+                self.bar_settings.set_sound_enable(enable);
                 self.bar_settings.write_to_file();
             }
             Message::PickerColorDone(info) => {
