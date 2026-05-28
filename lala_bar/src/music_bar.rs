@@ -591,37 +591,32 @@ impl LalaMusicBar {
             .center_x(Length::Fill)
             .center_y(Length::Fill);
 
-        let col = if let Some(handle) = handle_option {
+        let bar_right = container(row![
+            sound_slider,
+            Space::new().width(Length::Fixed(3.)),
+            self.date_widget(),
+            Space::new().width(Length::Fixed(3.)),
+            panel_btn
+        ])
+        .align_x(Alignment::End)
+        .width(Length::Fill);
+
+        let bar_left = container(if let Some(handle) = handle_option {
             row![
                 toggle_launcher,
                 Space::new().width(Length::Fixed(5.)),
                 image(handle),
                 title,
                 wav_chat,
-                buttons,
-                sound_slider,
-                Space::new().width(Length::Fixed(3.)),
-                self.date_widget(),
-                Space::new().width(Length::Fixed(3.)),
-                panel_btn
             ]
             .spacing(10)
         } else {
-            row![
-                toggle_launcher,
-                title,
-                wav_chat,
-                buttons,
-                sound_slider,
-                Space::new().width(Length::Fixed(3.)),
-                self.date_widget(),
-                Space::new().width(Length::Fixed(1.)),
-                panel_btn
-            ]
-            .spacing(10)
-        };
+            row![toggle_launcher, title, wav_chat].spacing(10)
+        })
+        .width(Length::Fill)
+        .align_x(Alignment::Start);
 
-        container(col)
+        container(row![bar_left, buttons, bar_right])
             .width(Length::Fill)
             .height(Length::Fill)
             .center_x(Length::Fill)
