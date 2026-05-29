@@ -155,7 +155,7 @@ pub async fn launch(id: &str, cmd: &[String], description: &str) -> anyhow::Resu
                     args: cmd.to_owned(),
                     unclean: false,
                 }],
-                environment: vec![],
+                environment: vec!["XDG_SESSION_TYPE=wayland"],
                 working_directory: None,
             },
             vec![],
