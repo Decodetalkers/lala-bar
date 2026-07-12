@@ -799,7 +799,7 @@ impl LalaMusicBar {
                             layer: Layer::Top,
                             margin: Some((10, 10, 10, 10)),
                             keyboard_interactivity: KeyboardInteractivity::None,
-                            output_option: OutputOption::None,
+                            output_option: OutputOption::Active,
                             ..Default::default()
                         },
                         id,
@@ -842,7 +842,7 @@ impl LalaMusicBar {
                             layer: Layer::Top,
                             margin: Some((10, 10, 10, 10)),
                             keyboard_interactivity: KeyboardInteractivity::None,
-                            output_option: OutputOption::None,
+                            output_option: OutputOption::Active,
                             ..Default::default()
                         },
                         id,
@@ -1018,7 +1018,7 @@ impl LalaMusicBar {
                         layer: Layer::Top,
                         margin: None,
                         keyboard_interactivity: KeyboardInteractivity::None,
-                        output_option: OutputOption::None,
+                        output_option: OutputOption::Active,
                         ..Default::default()
                     },
                     id,
