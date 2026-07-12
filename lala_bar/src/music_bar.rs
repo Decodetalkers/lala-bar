@@ -199,7 +199,7 @@ impl LalaMusicBar {
             return Command::none();
         };
 
-        for (_, notify_info) in self.notifications.iter_mut() {
+        for notify_info in self.notifications.values_mut() {
             if notify_info.counter > removed_counter {
                 notify_info.counter -= 1;
                 notify_info.upper -= 135;
@@ -1030,7 +1030,7 @@ impl LalaMusicBar {
                     return Command::none();
                 }
                 let mut commands = vec![];
-                for (_, notify) in self.notifications.iter_mut() {
+                for notify in self.notifications.values_mut() {
                     notify.upper += 135;
                     notify.counter += 1;
                 }
@@ -1157,7 +1157,7 @@ impl LalaMusicBar {
                 self.quite_mode = quite;
                 let mut commands = vec![];
                 if quite {
-                    for (id, _nid) in self.showned_notifications.iter() {
+                    for id in self.showned_notifications.keys() {
                         commands.push(iced_runtime::task::effect(Action::Window(
                             WindowAction::Close(*id),
                         )));
