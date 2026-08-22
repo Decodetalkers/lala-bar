@@ -22,10 +22,10 @@ iced = { features = [
 	"canvas",
 ], version = "0.14.0" }
 
-iced_layershell = "0.19.0"
+iced_exwlshell = { git = "https://github.com/waycrate/exwlshelleventloop", package = "iced_exwlshell" }
 
 iced_runtime = "0.14.0"
-tokio = { version = "1.52", features = ["full"] }
+tokio = { version = "1.53", features = ["full"] }
 iced_futures = "0.14.0"
 env_logger = "0.11.11"
 tracing = "0.1.44"
@@ -40,10 +40,10 @@ tracing-subscriber = { version = "0.3.23", features = [
 	"fmt",
 	"local-time",
 ] }
-anyhow = "1.0.103"
-alsa = "0.12.0"
+anyhow = "1.0.104"
+alsa = "0.12.1"
 
-regex = "1.13.0"
+regex = "1.13.1"
 xdg = "3.0.0"
 url.workspace = true
 futures.workspace = true
@@ -51,11 +51,11 @@ iced_zbus_notification.workspace = true
 chrono = "0.4.45"
 async-trait.workspace = true
 iced_aw = "0.14"
-open = "5.3.6"
-ashpd = { version = "0.13.12", features = ["screenshot", "screencast"] }
-toml = "1.1.2"
+open = "5.4.1"
+ashpd = { version = "0.13.13", features = ["screenshot", "screencast"] }
+toml = "1.1.4"
 csscolorparser = "0.8.3"
-pipewire = "0.10.0"
+pipewire = "0.10.1"
 fluent-bundle = "0.16.0"
 rust-embed = "8.12.0"
 intl-memoizer = "0.5.3"

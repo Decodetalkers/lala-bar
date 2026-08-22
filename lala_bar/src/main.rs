@@ -6,7 +6,7 @@ use zbus_mpirs::ServiceInfo;
 use futures::channel::mpsc::Sender;
 use iced_aw::date_picker::Date;
 use iced_aw::time_picker::Time;
-use iced_layershell::to_layer_message;
+use iced_exwlshell::to_layer_message;
 
 mod aximer;
 mod config;
@@ -26,7 +26,7 @@ use crate::wav_canvars::PwEvent;
 use notify::NotifyUnitWidgetInfo;
 
 #[tokio::main]
-async fn main() -> Result<(), iced_layershell::Error> {
+async fn main() -> Result<(), iced_exwlshell::Error> {
     use tracing_subscriber::filter::LevelFilter;
     use tracing_subscriber::fmt::time::LocalTime;
     tracing_subscriber::fmt()

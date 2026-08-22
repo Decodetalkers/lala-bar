@@ -27,10 +27,12 @@ use iced::widget::{
 };
 use iced::{Alignment, Element, Font, Length, Task as Command, Theme};
 use iced_aw::{date_picker::Date, helpers::date_picker, time_picker, time_picker::Time};
-use iced_layershell::reexport::OutputOption;
-use iced_layershell::reexport::{Anchor, KeyboardInteractivity, Layer, NewLayerShellSettings};
-use iced_layershell::settings::LayerShellSettings;
-use iced_layershell::settings::StartMode;
+use iced_exwlshell::reexport::OutputOption;
+use iced_exwlshell::reexport::{
+    Anchor, KeyboardInteractivity, Layer, LayerSize, NewLayerShellSettings,
+};
+use iced_exwlshell::settings::LayerShellSettings;
+use iced_exwlshell::settings::StartMode;
 use iced_runtime::Action;
 use iced_runtime::window::Action as WindowAction;
 use iced_zbus_notification::MessageSenderDefault;
@@ -39,9 +41,9 @@ use iced_zbus_notification::{
 };
 use std::collections::HashMap;
 
-use iced_layershell::build_pattern::daemon;
+use iced_exwlshell::daemon;
 
-pub fn run_lalabar() -> iced_layershell::Result {
+pub fn run_lalabar() -> iced_exwlshell::Result {
     daemon(
         LalaMusicBar::new,
         LalaMusicBar::namespace,
@@ -49,12 +51,11 @@ pub fn run_lalabar() -> iced_layershell::Result {
         LalaMusicBar::view,
     )
     .layer_settings(LayerShellSettings {
-        size: Some((0, 35)),
+        size: LayerSize::fill_width(35),
         exclusive_zone: 35,
         anchor: Anchor::Bottom | Anchor::Left | Anchor::Right,
         layer: Layer::Top,
         start_mode: StartMode::AllScreens,
-
         ..Default::default()
     })
     .theme(LalaMusicBar::theme)
@@ -778,7 +779,7 @@ impl LalaMusicBar {
                             ))),
                             Command::done(Message::NewLayerShell {
                                 settings: NewLayerShellSettings {
-                                    size: Some((350, 350)),
+                                    size: LayerSize::px(350, 350),
                                     exclusive_zone: None,
                                     anchor: Anchor::Right | Anchor::Bottom,
                                     layer: Layer::Top,
@@ -793,7 +794,7 @@ impl LalaMusicBar {
                     }
                     return Command::done(Message::NewLayerShell {
                         settings: NewLayerShellSettings {
-                            size: Some((350, 350)),
+                            size: LayerSize::px(350, 350),
                             exclusive_zone: None,
                             anchor: Anchor::Right | Anchor::Bottom,
                             layer: Layer::Top,
@@ -821,7 +822,7 @@ impl LalaMusicBar {
                             ))),
                             Command::done(Message::NewLayerShell {
                                 settings: NewLayerShellSettings {
-                                    size: Some((350, 350)),
+                                    size: LayerSize::px(350, 350),
                                     exclusive_zone: None,
                                     anchor: Anchor::Right | Anchor::Bottom,
                                     layer: Layer::Top,
@@ -836,7 +837,7 @@ impl LalaMusicBar {
                     }
                     return Command::done(Message::NewLayerShell {
                         settings: NewLayerShellSettings {
-                            size: Some((350, 350)),
+                            size: LayerSize::px(350, 350),
                             exclusive_zone: None,
                             anchor: Anchor::Right | Anchor::Bottom,
                             layer: Layer::Top,
@@ -961,7 +962,7 @@ impl LalaMusicBar {
                 return Command::batch(vec![
                     Command::done(Message::NewLayerShell {
                         settings: NewLayerShellSettings {
-                            size: Some((500, 700)),
+                            size: LayerSize::px(500, 700),
                             exclusive_zone: None,
                             anchor: Anchor::Left | Anchor::Bottom,
                             layer: Layer::Top,
@@ -987,7 +988,7 @@ impl LalaMusicBar {
                 return Command::batch(vec![
                     Command::done(Message::NewLayerShell {
                         settings: NewLayerShellSettings {
-                            size: Some((1200, 1000)),
+                            size: LayerSize::px(1200, 1000),
                             margin: None,
 
                             exclusive_zone: None,
@@ -1012,7 +1013,7 @@ impl LalaMusicBar {
                 self.set_id_info(id, LaLaInfo::RightPanel);
                 return Command::done(Message::NewLayerShell {
                     settings: NewLayerShellSettings {
-                        size: Some((300, 0)),
+                        size: LayerSize::fill_height(300),
                         exclusive_zone: Some(300),
                         anchor: Anchor::Right | Anchor::Bottom | Anchor::Top,
                         layer: Layer::Top,
@@ -1112,7 +1113,7 @@ impl LalaMusicBar {
                         // NOTE: if not all shown, then do as the way before
                         commands.push(Command::done(Message::NewLayerShell {
                             settings: NewLayerShellSettings {
-                                size: Some((300, 130)),
+                                size: LayerSize::px(300, 130),
                                 exclusive_zone: None,
                                 anchor: Anchor::Right | Anchor::Top,
                                 layer: Layer::Top,
@@ -1137,13 +1138,13 @@ impl LalaMusicBar {
                     self.set_id_info(id, LaLaInfo::HiddenInfo);
                     commands.push(Command::done(Message::NewLayerShell {
                         settings: NewLayerShellSettings {
-                            size: Some((300, 25)),
+                            size: LayerSize::px(300, 25),
                             exclusive_zone: None,
                             anchor: Anchor::Right | Anchor::Top,
                             layer: Layer::Top,
                             margin: Some((EXTRAINF_MARGIN, 10, 10, 10)),
                             keyboard_interactivity: KeyboardInteractivity::OnDemand,
-                            output_option: iced_layershell::reexport::OutputOption::LastOutput,
+                            output_option: iced_exwlshell::reexport::OutputOption::LastOutput,
                             ..Default::default()
                         },
                         id,
@@ -1177,7 +1178,7 @@ impl LalaMusicBar {
                         self.set_id_info(id, LaLaInfo::Notify(Box::new(notify_info.clone())));
                         commands.push(Command::done(Message::NewLayerShell {
                             settings: NewLayerShellSettings {
-                                size: Some((300, 130)),
+                                size: LayerSize::px(300, 130),
                                 exclusive_zone: None,
                                 anchor: Anchor::Right | Anchor::Top,
                                 layer: Layer::Top,
@@ -1197,7 +1198,7 @@ impl LalaMusicBar {
                         self.set_id_info(id, LaLaInfo::HiddenInfo);
                         commands.push(Command::done(Message::NewLayerShell {
                             settings: NewLayerShellSettings {
-                                size: Some((300, 25)),
+                                size: LayerSize::px(300, 25),
                                 exclusive_zone: None,
                                 anchor: Anchor::Right | Anchor::Top,
                                 layer: Layer::Top,
