@@ -9,9 +9,6 @@ use crate::localization::fl;
 use crate::notify::{NotifyCommand, NotifyUnitWidgetInfo};
 use crate::settings::SettingsConfig;
 use crate::slider::SliderIndex;
-use crate::wav_canvars;
-use crate::wav_canvars::PwEvent;
-use crate::wav_canvars::WavState;
 use crate::zbus_mpirs::ServiceInfo;
 use crate::{LaLaInfo, Message, get_metadata_initial};
 use crate::{aximer, launcher};
@@ -20,7 +17,6 @@ use fluent_bundle::FluentArgs;
 use futures::StreamExt;
 use futures::channel::mpsc::{Sender, channel};
 use futures::future::pending;
-use iced::widget::canvas;
 use iced::widget::{
     Space, button, checkbox, column, container, image, markdown, row, scrollable, slider, svg,
     text, text_input,
@@ -92,8 +88,6 @@ pub struct LalaMusicBar {
     right_filter: RightPanelFilter,
 
     bar_settings: SettingsConfig,
-
-    wav_data: wav_canvars::WavState,
 }
 
 async fn color_pick() -> ColorPickerResult {
@@ -376,22 +370,7 @@ impl LalaMusicBar {
         ])
         .center_y(Length::Fill)
         .center_x(Length::Fill);
-        let spectrum_setting = container(row![
-            Space::new().width(10.),
-            container(text(fl!("spectrum-enable")).align_x(Alignment::End))
-                .center_y(Length::Fill)
-                .width(Length::Fill),
-            Space::new().width(20.),
-            container(
-                checkbox(self.bar_settings.spectrum_enable()).on_toggle(Message::ToggleSpectrum)
-            )
-            .center_y(Length::Fill)
-            .center_x(Length::Fill)
-            .width(Length::Fixed(70.)),
-            Space::new().width(10.)
-        ])
-        .center_y(30.)
-        .center_x(Length::Fill);
+
         let sound_setting = container(row![
             Space::new().width(10.),
             container(text(fl!("sound-enable")).align_x(Alignment::End))
@@ -409,7 +388,6 @@ impl LalaMusicBar {
         let settings = scrollable(column![
             Space::new().height(30.),
             color_settings,
-            spectrum_setting,
             sound_setting
         ])
         .height(Length::Fill);
@@ -544,15 +522,6 @@ impl LalaMusicBar {
         )
         .width(Length::Fill)
         .center_x(Length::Fill);
-        let wav_chat: Element<'_, Message> = if self.bar_settings.spectrum_enable() {
-            // NOTE: since drawing the canvas cost lots of cpu, so now we allow you to disable it
-            canvas(&self.wav_data)
-                .width(Length::Fixed(350.))
-                .height(Length::Fill)
-                .into()
-        } else {
-            Space::new().into()
-        };
 
         let can_play = service_data.can_play;
         let can_pause = service_data.can_pause;
@@ -608,11 +577,10 @@ impl LalaMusicBar {
                 Space::new().width(Length::Fixed(5.)),
                 image(handle),
                 title,
-                wav_chat,
             ]
             .spacing(10)
         } else {
-            row![toggle_launcher, title, wav_chat].spacing(10)
+            row![toggle_launcher, title].spacing(10)
         })
         .width(Length::Fill)
         .align_x(Alignment::Start);
@@ -656,7 +624,6 @@ impl LalaMusicBar {
                 time_picker_id: None,
                 right_filter: RightPanelFilter::Notifications,
                 bar_settings: SettingsConfig::read_from_file(),
-                wav_data: WavState::new(),
             },
             Command::batch(vec![
                 Command::done(Message::UpdateData),
@@ -749,20 +716,6 @@ impl LalaMusicBar {
 
     fn update(&mut self, message: Message) -> Command<Message> {
         match message {
-            Message::Tick => {
-                self.wav_data.update_canvas();
-            }
-            Message::Pw(PwEvent::FormatChange(format)) => {
-                let rate = format.rate();
-                self.wav_data.reset_format(rate);
-            }
-
-            Message::Pw(PwEvent::Spectrum(spectrum)) => {
-                self.wav_data.set_spectrum(spectrum);
-            }
-            Message::Pw(PwEvent::PwErr) => {
-                tracing::warn!("pw connection is broken");
-            }
             Message::MpirsInfoUpdate(data) => self.service_data = data,
             Message::ToggleCalendar => {
                 if let Some(calendar_id) = self.calendar_id {
@@ -1305,10 +1258,6 @@ impl LalaMusicBar {
             Message::PickerColor => {
                 return Command::perform(color_pick(), Message::PickerColorDone);
             }
-            Message::ToggleSpectrum(enable) => {
-                self.bar_settings.set_spectrum(enable);
-                self.bar_settings.write_to_file();
-            }
             Message::ToggleSound(enable) => {
                 self.bar_settings.set_sound_enable(enable);
                 self.bar_settings.write_to_file();
@@ -1417,9 +1366,6 @@ impl LalaMusicBar {
 
     fn subscription(&self) -> iced::Subscription<Message> {
         iced::Subscription::batch([
-            iced::window::frames().map(|_| Message::Tick),
-            wav_canvars::listen_pw().map(Message::Pw),
-            // NOTE: update the base data
             iced::time::every(std::time::Duration::from_secs(5)).map(|_| Message::UpdateData),
             iced::time::every(std::time::Duration::from_secs(1))
                 .map(|_| Message::RequestMprisInfoUpdate),

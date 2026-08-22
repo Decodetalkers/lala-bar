@@ -17,12 +17,10 @@ mod music_bar;
 mod notify;
 mod settings;
 mod slider;
-mod wav_canvars;
 mod zbus_mpirs;
 
 use crate::music_bar::LalaMusicBar;
 use crate::notify::NotifyCommand;
-use crate::wav_canvars::PwEvent;
 use notify::NotifyUnitWidgetInfo;
 
 #[tokio::main]
@@ -73,9 +71,6 @@ pub enum Message {
     RequestNext,
     RequestPause,
     RequestPlay,
-    // WAV CHAT
-    Tick,
-    Pw(PwEvent),
     // SOUNCD CONTROL
     UpdateData,
     RequestMprisInfoUpdate,
@@ -118,7 +113,6 @@ pub enum Message {
     // MENU
     RightPanelFilterChanged(RightPanelFilter),
     PickerColor,
-    ToggleSpectrum(bool),
     ToggleSound(bool),
     PickerColorDone(ColorPickerResult),
     ResetConfig,
