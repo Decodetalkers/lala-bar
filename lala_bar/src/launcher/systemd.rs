@@ -138,11 +138,12 @@ async fn get_connection() -> zbus::Result<zbus::Connection> {
 
 pub async fn launch(id: &str, cmd: &[String], description: &str) -> anyhow::Result<()> {
     let conn = get_connection().await?;
+    let random_code = rand::random::<u32>();
     let systemd = Systemd1ManagerProxy::builder(&conn)
         .destination("org.freedesktop.systemd1")?
         .build()
         .await?;
-    let service = format!("app-lalabar-{id}@{}.service", Id::unique().0);
+    let service = format!("app-lalabar-{id}@{random_code}.service");
 
     systemd
         .start_transient_unit(
