@@ -142,7 +142,7 @@ pub async fn launch(id: &str, cmd: &[String], description: &str) -> anyhow::Resu
         .destination("org.freedesktop.systemd1")?
         .build()
         .await?;
-    let service = format!("lala-bar-tmp.{id}@{}.service", Id::unique().0);
+    let service = format!("app-lalabar-{id}@{}.service", Id::unique().0);
 
     systemd
         .start_transient_unit(
