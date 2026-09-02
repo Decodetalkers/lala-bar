@@ -1382,8 +1382,9 @@ dependencies = [
 
 [[package]]
 name = "exwlshellev"
-version = "0.19.1"
-source = "git+https://github.com/waycrate/exwlshelleventloop#95e82ffa5c574d7543a3efd78455678e7ed955e6"
+version = "0.20.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "838a9143ff118a5711e639862f511ba1afdb955c8c2e4d438c9291bfbbd2be19"
 dependencies = [
  "calloop 0.14.4",
  "calloop-wayland-source 0.4.1",
@@ -2165,8 +2166,9 @@ dependencies = [
 
 [[package]]
 name = "iced_exdevtools"
-version = "0.19.1"
-source = "git+https://github.com/waycrate/exwlshelleventloop#95e82ffa5c574d7543a3efd78455678e7ed955e6"
+version = "0.20.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "82e6afcc438aa19a952f078173e96d8e0e938a2906f5c73cc277de689368d36f"
 dependencies = [
  "iced_debug",
  "iced_devtools",
@@ -2178,8 +2180,9 @@ dependencies = [
 
 [[package]]
 name = "iced_exwlshell"
-version = "0.19.1"
-source = "git+https://github.com/waycrate/exwlshelleventloop#95e82ffa5c574d7543a3efd78455678e7ed955e6"
+version = "0.20.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f685a8d8186d39952bfb2185cf1f5b75d2edd5b53200d3abd4d8d79bd1c277fb"
 dependencies = [
  "enumflags2",
  "exwlshellev",
@@ -2204,8 +2207,9 @@ dependencies = [
 
 [[package]]
 name = "iced_exwlshell_macros"
-version = "0.19.1"
-source = "git+https://github.com/waycrate/exwlshelleventloop#95e82ffa5c574d7543a3efd78455678e7ed955e6"
+version = "0.20.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8bf7899af76267ae78a49293c7f4f944b0b7fafe3f4c80bcceb11ea8acd0e096"
 dependencies = [
  "darling",
  "manyhow",
@@ -2330,8 +2334,9 @@ dependencies = [
 
 [[package]]
 name = "iced_wayland_subscriber"
-version = "0.19.1"
-source = "git+https://github.com/waycrate/exwlshelleventloop#95e82ffa5c574d7543a3efd78455678e7ed955e6"
+version = "0.20.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "91652a0726781ecbd2566c44a3aab09dcedcf77b673ed90a15a512a2b896707a"
 dependencies = [
  "futures",
  "iced_core",
@@ -5919,8 +5924,9 @@ dependencies = [
 
 [[package]]
 name = "waycrate_xkbkeycode"
-version = "0.19.1"
-source = "git+https://github.com/waycrate/exwlshelleventloop#95e82ffa5c574d7543a3efd78455678e7ed955e6"
+version = "0.20.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7767dc2b81a899f817114a97e2e9f5e8d2729c3f15466af983e96fd29e89c810"
 dependencies = [
  "calloop 0.14.4",
  "log",

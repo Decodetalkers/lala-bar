@@ -883,7 +883,9 @@ impl LalaMusicBar {
             }
             Message::UpdateData => {
                 // BALANCE
-                self.update_balance();
+                if self.bar_settings.sound_enable() {
+                    self.update_balance();
+                }
                 // TIME
                 self.datetime = Local::now();
                 self.date = self.datetime.date_naive().into();

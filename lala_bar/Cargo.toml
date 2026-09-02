@@ -22,7 +22,7 @@ iced = { features = [
 	"canvas",
 ], version = "0.14.0" }
 
-iced_exwlshell = { git = "https://github.com/waycrate/exwlshelleventloop", package = "iced_exwlshell" }
+iced_exwlshell = "0.20.0"
 
 iced_runtime = "0.14.0"
 tokio = { version = "1.53", features = ["full"] }
